@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Check Out Tool</h2>
+
+<mat-dialog-content [formGroup]="form" class="form-content">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Tool *</mat-label>
+    <mat-select formControlName="toolId">
+      @for (t of availableTools; track t.id) {
+        <mat-option [value]="t.id">{{ t.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>User ID *</mat-label>
+    <input matInput type="text" formControlName="userId">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Expected Return Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="expectedReturnDate">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Notes</mat-label>
+    <textarea matInput formControlName="notes" rows="2"></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid">Check Out</button>
+</mat-dialog-actions>

@@ -1,0 +1,64 @@
+.scanner-content {
+  min-width: 360px;
+  min-height: 300px;
+}
+
+.scanner-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  .scanner {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .hint {
+    color: #666;
+    font-size: 13px;
+    margin: 0;
+  }
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 0;
+}
+
+.result-card {
+  margin-top: 8px;
+
+  .tool-details p {
+    margin: 6px 0;
+  }
+
+  .status-chip {
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+}
+
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 0;
+  text-align: center;
+
+  mat-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+  }
+
+  p {
+    margin: 0;
+  }
+}

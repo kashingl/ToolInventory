@@ -1,0 +1,64 @@
+<h2 mat-dialog-title>{{ isEdit ? 'Edit Tool' : 'Add Tool' }}</h2>
+
+<mat-dialog-content [formGroup]="form" class="form-content">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Name *</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description" rows="2"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Barcode / QR Code</mat-label>
+    <input matInput formControlName="barcode">
+    <mat-icon matSuffix>qr_code</mat-icon>
+  </mat-form-field>
+
+  <div class="row">
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Location</mat-label>
+      <input matInput formControlName="location">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Systainer</mat-label>
+      <input matInput formControlName="systainer">
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Image URL</mat-label>
+    <input matInput formControlName="imageUrl">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Category</mat-label>
+    <mat-select formControlName="categoryId">
+      <mat-option [value]="null">— None —</mat-option>
+      @for (cat of categories; track cat.id) {
+        <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  @if (isEdit) {
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        @for (s of statuses; track s) {
+          <mat-option [value]="s">{{ s }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid">
+    {{ isEdit ? 'Update' : 'Create' }}
+  </button>
+</mat-dialog-actions>

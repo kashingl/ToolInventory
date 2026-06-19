@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:ToolInventory.MAUI.Views"
+       x:Class="ToolInventory.MAUI.AppShell"
+       Shell.NavBarIsVisible="True"
+       FlyoutBehavior="Disabled">
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light=#6200EE, Dark=#1C1C1E}" />
+                <Setter Property="Shell.ForegroundColor" Value="White" />
+                <Setter Property="Shell.TitleColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <ShellContent Route="login"
+                  FlyoutItemIsVisible="False"
+                  ContentTemplate="{DataTemplate views:LoginPage}" />
+
+    <TabBar x:Name="MainTabs" Route="main">
+        <Tab Title="Tools" Route="toolstab">
+            <ShellContent Route="tools" ContentTemplate="{DataTemplate views:ToolsPage}" />
+        </Tab>
+        <Tab Title="Check-in/Out" Route="checkoutstab">
+            <ShellContent Route="checkouts" ContentTemplate="{DataTemplate views:CheckoutsPage}" />
+        </Tab>
+        <Tab Title="Maintenance" Route="maintenancetab">
+            <ShellContent Route="maintenance" ContentTemplate="{DataTemplate views:MaintenancePage}" />
+        </Tab>
+    </TabBar>
+</Shell>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ToolInventory.MAUI.ViewModels"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             x:Class="ToolInventory.MAUI.Views.ScannerPage"
+             x:DataType="vm:ScannerViewModel"
+             Title="Scanner">
+
+    <Grid RowDefinitions="*,Auto">
+        <zxing:CameraBarcodeReaderView Grid.Row="0"
+                                       x:Name="BarcodeReader"
+                                       BarcodesDetected="OnBarcodesDetected"
+                                       IsVisible="{Binding IsScanning}" />
+
+        <VerticalStackLayout Grid.Row="1" Padding="16" Spacing="12">
+            <Label Text="{Binding StatusMessage}" HorizontalOptions="Center" FontSize="14" TextColor="Gray" />
+
+            <Border Padding="16" StrokeShape="RoundRectangle 8"
+                    IsVisible="{Binding FoundTool, Converter={StaticResource NotNullConverter}}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{Binding FoundTool.Name}" FontAttributes="Bold" FontSize="18" />
+                    <Label Text="{Binding FoundTool.Status}"
+                           TextColor="{Binding FoundTool.Status, Converter={StaticResource StatusColorConverter}}" />
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Location: " FontAttributes="Bold" />
+                                <Span Text="{Binding FoundTool.Location}" />
+                                <Span Text="   Systainer: " FontAttributes="Bold" />
+                                <Span Text="{Binding FoundTool.Systainer}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Button Text="Check Out"
+                                Command="{Binding CheckOutCommand}"
+                                IsVisible="{Binding FoundTool.Status, Converter={StaticResource StatusEqualsConverter}, ConverterParameter=Available}" />
+                        <Button Text="Check In"
+                                Command="{Binding CheckInCommand}"
+                                IsVisible="{Binding FoundTool.Status, Converter={StaticResource StatusEqualsConverter}, ConverterParameter=CheckedOut}" />
+                        <Button Text="Scan Again" Command="{Binding ScanAgainCommand}" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
