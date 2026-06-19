@@ -1,0 +1,18 @@
+# Local environment and secret files
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+id_rsa
+id_dsa
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
