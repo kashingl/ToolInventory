@@ -1,0 +1,30 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  mat-divider {
+    height: 32px;
+  }
+}
+
+.filter-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.table-container {
+  border-radius: 4px;
+  overflow: auto;
+}

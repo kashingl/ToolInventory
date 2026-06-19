@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Add Maintenance Record</h2>
+
+<mat-dialog-content [formGroup]="form" class="form-content">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Tool *</mat-label>
+    <mat-select formControlName="toolId">
+      @for (t of tools; track t.id) {
+        <mat-option [value]="t.id">{{ t.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Date *</mat-label>
+    <input matInput [matDatepicker]="datePicker" formControlName="date">
+    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+    <mat-datepicker #datePicker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Description *</mat-label>
+    <textarea matInput formControlName="description" rows="2"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Performed By</mat-label>
+    <input matInput formControlName="performedBy">
+  </mat-form-field>
+
+  <div class="row">
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Cost</mat-label>
+      <input matInput type="number" formControlName="cost">
+      <span matPrefix>$&nbsp;</span>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Next Maintenance</mat-label>
+      <input matInput [matDatepicker]="nextPicker" formControlName="nextMaintenanceDate">
+      <mat-datepicker-toggle matSuffix [for]="nextPicker"></mat-datepicker-toggle>
+      <mat-datepicker #nextPicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid">Save</button>
+</mat-dialog-actions>

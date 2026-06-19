@@ -1,0 +1,86 @@
+<h2 mat-dialog-title>
+  <mat-icon>qr_code_scanner</mat-icon>
+  Scan Barcode / QR Code
+</h2>
+
+<mat-dialog-content class="scanner-content">
+  @if (scanning()) {
+    <div class="scanner-wrapper">
+      <zxing-scanner
+        (scanSuccess)="onScanSuccess($event)"
+        [formats]="formats"
+        class="scanner"
+      />
+      <p class="hint">Point the camera at a barcode or QR code</p>
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="center">
+      <mat-spinner diameter="48" />
+      <p>Looking up tool...</p>
+    </div>
+  }
+
+  @if (foundTool(); as tool) {
+    <mat-card class="result-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>build</mat-icon>
+        <mat-card-title>{{ tool.name }}</mat-card-title>
+        <mat-card-subtitle>{{ tool.categoryName ?? 'No category' }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="tool-details">
+          @if (tool.location) {
+            <p><strong>Location:</strong> {{ tool.location }}</p>
+          }
+          @if (tool.systainer) {
+            <p><strong>Systainer:</strong> {{ tool.systainer }}</p>
+          }
+          @if (tool.description) {
+            <p><strong>Description:</strong> {{ tool.description }}</p>
+          }
+          <p>
+            <strong>Status:</strong>
+            <mat-chip [color]="statusColor(tool.status)" highlighted class="status-chip">
+              {{ tool.status }}
+            </mat-chip>
+          </p>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        @if (tool.status === 'Available') {
+          <button mat-raised-button color="primary" (click)="checkOut(tool)">
+            <mat-icon>output</mat-icon>
+            Check Out
+          </button>
+        }
+        @if (tool.status === 'CheckedOut') {
+          <button mat-raised-button color="accent" (click)="checkIn(tool)">
+            <mat-icon>assignment_return</mat-icon>
+            Check In
+          </button>
+        }
+        <button mat-button (click)="scanAgain()">
+          <mat-icon>qr_code_scanner</mat-icon>
+          Scan Again
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  }
+
+  @if (errorMessage(); as msg) {
+    <div class="error-state">
+      <mat-icon color="warn">error_outline</mat-icon>
+      <p>{{ msg }}</p>
+      <button mat-raised-button (click)="scanAgain()">
+        <mat-icon>refresh</mat-icon>
+        Try Again
+      </button>
+    </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions>
