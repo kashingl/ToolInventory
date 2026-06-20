@@ -13,9 +13,10 @@ public class NavigationTests : IClassFixture<PlaywrightFixture>
         _fixture = fixture;
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task SideNav_ShowsAllMenuItems()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/");
 
         await _fixture.Page.WaitForSelectorAsync("mat-sidenav");
@@ -29,18 +30,20 @@ public class NavigationTests : IClassFixture<PlaywrightFixture>
         await Assertions.Expect(maintenanceLink).ToBeVisibleAsync();
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task RootUrl_RedirectsToTools()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/");
         await _fixture.Page.WaitForURLAsync("**/tools");
 
         Assert.Contains("/tools", _fixture.Page.Url);
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task CheckoutsLink_NavigatesToCheckoutsPage()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/");
         await _fixture.Page.ClickAsync("mat-nav-list a:has-text('Check-in / Out')");
         await _fixture.Page.WaitForURLAsync("**/checkouts");
@@ -48,9 +51,10 @@ public class NavigationTests : IClassFixture<PlaywrightFixture>
         Assert.Contains("/checkouts", _fixture.Page.Url);
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task MaintenanceLink_NavigatesToMaintenancePage()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/");
         await _fixture.Page.ClickAsync("mat-nav-list a:has-text('Maintenance')");
         await _fixture.Page.WaitForURLAsync("**/maintenance");
