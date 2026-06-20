@@ -13,9 +13,10 @@ public class ToolsTests : IClassFixture<PlaywrightFixture>
         _fixture = fixture;
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task ToolsPage_ShowsTable()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/tools");
 
         await _fixture.Page.WaitForSelectorAsync("table[mat-table]");
@@ -23,9 +24,10 @@ public class ToolsTests : IClassFixture<PlaywrightFixture>
         await Assertions.Expect(table).ToBeVisibleAsync();
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task ToolsPage_AddToolButton_OpensDialog()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/tools");
 
         await _fixture.Page.ClickAsync("button:has-text('Add Tool')");
@@ -37,17 +39,19 @@ public class ToolsTests : IClassFixture<PlaywrightFixture>
         await Assertions.Expect(title).ToContainTextAsync("Add Tool");
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task CreateTool_FillFormAndSubmit_ToolAppearsInList()
     {
+        await _fixture.LoginForTestAsync();
         var toolName = await E2ETestHelper.CreateToolAsync(_fixture.Page);
 
         await Assertions.Expect(E2ETestHelper.ToolRow(_fixture.Page, toolName)).ToBeVisibleAsync();
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task ToolCrud_CreateEditDelete_WorksEndToEnd()
     {
+        await _fixture.LoginForTestAsync();
         var originalName = await E2ETestHelper.CreateToolAsync(_fixture.Page);
         var originalRow = E2ETestHelper.ToolRow(_fixture.Page, originalName);
 
@@ -63,30 +67,19 @@ public class ToolsTests : IClassFixture<PlaywrightFixture>
         await E2ETestHelper.FilterToolsAsync(_fixture.Page, updatedName);
         await Assertions.Expect(E2ETestHelper.ToolRow(_fixture.Page, updatedName)).ToBeVisibleAsync();
 
-        var dialogTaskCompletionSource = new TaskCompletionSource<IDialog>();
-        _fixture.Page.Dialog += HandleDialog;
-
-        try
-        {
-            await E2ETestHelper.ToolRow(_fixture.Page, updatedName).Locator("button").Nth(1).ClickAsync();
-            var dialog = await dialogTaskCompletionSource.Task;
-            await dialog.AcceptAsync();
-        }
-        finally
-        {
-            _fixture.Page.Dialog -= HandleDialog;
-        }
-
-        void HandleDialog(object? _, IDialog dialog) => dialogTaskCompletionSource.TrySetResult(dialog);
+        await E2ETestHelper.ToolRow(_fixture.Page, updatedName).Locator("button").Nth(1).ClickAsync();
+        await _fixture.Page.WaitForSelectorAsync("mat-dialog-container");
+        await _fixture.Page.ClickAsync("mat-dialog-actions button:has-text('Delete')");
 
         await E2ETestHelper.ExpectSnackBarAsync(_fixture.Page, "deleted");
         await E2ETestHelper.FilterToolsAsync(_fixture.Page, updatedName);
         await Assertions.Expect(E2ETestHelper.ToolRow(_fixture.Page, updatedName)).ToHaveCountAsync(0);
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task FilterBox_FiltersTableResults()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/tools");
         await _fixture.Page.WaitForSelectorAsync("table[mat-table]");
 
@@ -96,9 +89,10 @@ public class ToolsTests : IClassFixture<PlaywrightFixture>
         await Assertions.Expect(rows).ToHaveCountAsync(0);
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task ScanButton_OpensScannerDialog()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/tools");
 
         await _fixture.Page.ClickAsync("button:has-text('Scan')");

@@ -13,9 +13,10 @@ public class MaintenanceTests : IClassFixture<PlaywrightFixture>
         _fixture = fixture;
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task MaintenancePage_ShowsTable()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/maintenance");
 
         await _fixture.Page.WaitForSelectorAsync("table[mat-table]");
@@ -23,9 +24,10 @@ public class MaintenanceTests : IClassFixture<PlaywrightFixture>
         await Assertions.Expect(table).ToBeVisibleAsync();
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task AddRecordButton_OpensDialog()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/maintenance");
 
         await _fixture.Page.ClickAsync("button:has-text('Add Record')");
@@ -37,9 +39,10 @@ public class MaintenanceTests : IClassFixture<PlaywrightFixture>
         await Assertions.Expect(title).ToContainTextAsync("Add Maintenance Record");
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task AddRecordDialog_Cancel_ClosesDialog()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/maintenance");
         await _fixture.Page.ClickAsync("button:has-text('Add Record')");
         await _fixture.Page.WaitForSelectorAsync("mat-dialog-container");
@@ -50,9 +53,10 @@ public class MaintenanceTests : IClassFixture<PlaywrightFixture>
         await Assertions.Expect(dialog).ToBeHiddenAsync();
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task AddMaintenanceRecord_Submit_ShowsNewRecord()
     {
+        await _fixture.LoginForTestAsync();
         var toolName = await E2ETestHelper.CreateToolAsync(_fixture.Page);
 
         await _fixture.Page.GotoAsync("/maintenance");
@@ -63,7 +67,7 @@ public class MaintenanceTests : IClassFixture<PlaywrightFixture>
         await _fixture.Page.FillAsync("mat-dialog-container textarea[formcontrolname='description']", "E2E maintenance record");
         await _fixture.Page.FillAsync("mat-dialog-container input[formcontrolname='performedBy']", "E2E Tester");
         await _fixture.Page.FillAsync("mat-dialog-container input[formcontrolname='cost']", "25.50");
-        await _fixture.Page.ClickAsync("mat-dialog-actions button:has-text('Create')");
+        await _fixture.Page.ClickAsync("mat-dialog-actions button:has-text('Save')");
 
         await E2ETestHelper.ExpectSnackBarAsync(_fixture.Page, "created");
 

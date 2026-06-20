@@ -13,9 +13,10 @@ public class CheckoutsTests : IClassFixture<PlaywrightFixture>
         _fixture = fixture;
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task CheckoutsPage_ShowsTable()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/checkouts");
 
         await _fixture.Page.WaitForSelectorAsync("table[mat-table]");
@@ -23,9 +24,10 @@ public class CheckoutsTests : IClassFixture<PlaywrightFixture>
         await Assertions.Expect(table).ToBeVisibleAsync();
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task CheckoutButton_OpensDialog()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/checkouts");
 
         await _fixture.Page.ClickAsync("button:has-text('Check Out Tool')");
@@ -37,9 +39,10 @@ public class CheckoutsTests : IClassFixture<PlaywrightFixture>
         await Assertions.Expect(title).ToContainTextAsync("Check Out Tool");
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task CheckoutDialog_Cancel_ClosesDialog()
     {
+        await _fixture.LoginForTestAsync();
         await _fixture.Page.GotoAsync("/checkouts");
         await _fixture.Page.ClickAsync("button:has-text('Check Out Tool')");
         await _fixture.Page.WaitForSelectorAsync("mat-dialog-container");
@@ -50,17 +53,19 @@ public class CheckoutsTests : IClassFixture<PlaywrightFixture>
         await Assertions.Expect(dialog).ToBeHiddenAsync();
     }
 
-    [Fact(Skip = "Requires running Angular app at http://localhost:4200")]
+    [Fact]
     public async Task CheckoutAndCheckIn_FlowUpdatesStatus()
     {
+        await _fixture.LoginForTestAsync();
         var toolName = await E2ETestHelper.CreateToolAsync(_fixture.Page);
+        var currentUserId = await E2ETestHelper.GetCurrentUserIdAsync(_fixture.Page);
 
         await _fixture.Page.GotoAsync("/checkouts");
         await _fixture.Page.ClickAsync("button:has-text('Check Out Tool')");
         await _fixture.Page.WaitForSelectorAsync("mat-dialog-container");
 
         await E2ETestHelper.SelectMatOptionAsync(_fixture.Page, "mat-dialog-container mat-select[formcontrolname='toolId']", toolName);
-        await _fixture.Page.FillAsync("mat-dialog-container input[formcontrolname='userId']", "1001");
+        await _fixture.Page.FillAsync("mat-dialog-container input[formcontrolname='userId']", currentUserId);
         await _fixture.Page.FillAsync("mat-dialog-container textarea[formcontrolname='notes']", "E2E checkout");
         await _fixture.Page.ClickAsync("mat-dialog-actions button:has-text('Check Out')");
 
@@ -68,7 +73,7 @@ public class CheckoutsTests : IClassFixture<PlaywrightFixture>
 
         var row = _fixture.Page.Locator($"tr[mat-row]:has-text('{toolName}')");
         await Assertions.Expect(row).ToBeVisibleAsync();
-        await Assertions.Expect(row).ToContainTextAsync("Checked Out");
+        await Assertions.Expect(row).ToContainTextAsync("Active");
 
         await row.Locator("button:has-text('Check In')").ClickAsync();
 

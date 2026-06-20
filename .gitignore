@@ -16,3 +16,21 @@ id_dsa
 Thumbs.db
 .vscode/
 .idea/
+
+# Build outputs
+**/bin/
+**/obj/
+
+# Node / frontend artifacts
+**/node_modules/
+**/.angular/
+**/dist/
+**/coverage/
+
+# E2E / Playwright artifacts
+**/.playwright/
+**/playwright-report/
+**/test-results/
+
+# Logs
+*.log

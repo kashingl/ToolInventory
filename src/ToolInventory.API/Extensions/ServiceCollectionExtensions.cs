@@ -74,7 +74,7 @@ public static class ServiceCollectionExtensions
 
         services.AddCors(options =>
         {
-            var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? ["http://localhost:4200"];
+            var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? ["http://localhost:4200", "http://localhost:4201"];
             options.AddPolicy("FrontendClients", policy =>
                 policy.WithOrigins(allowedOrigins)
                     .AllowAnyHeader()
