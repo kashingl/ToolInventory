@@ -16,6 +16,8 @@ id_dsa
 Thumbs.db
 .vscode/
 .idea/
+.vs/
+*.code-workspace
 
 # Build outputs
 **/bin/
