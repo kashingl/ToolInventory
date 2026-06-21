@@ -55,7 +55,7 @@ public class ToolsTests : IClassFixture<PlaywrightFixture>
         var originalName = await E2ETestHelper.CreateToolAsync(_fixture.Page);
         var originalRow = E2ETestHelper.ToolRow(_fixture.Page, originalName);
 
-        await originalRow.Locator("button").First.ClickAsync();
+        await originalRow.Locator("button[mat-icon-button]").First.ClickAsync();
         await _fixture.Page.WaitForSelectorAsync("mat-dialog-container");
 
         var updatedName = $"{originalName} Updated";
@@ -67,7 +67,7 @@ public class ToolsTests : IClassFixture<PlaywrightFixture>
         await E2ETestHelper.FilterToolsAsync(_fixture.Page, updatedName);
         await Assertions.Expect(E2ETestHelper.ToolRow(_fixture.Page, updatedName)).ToBeVisibleAsync();
 
-        await E2ETestHelper.ToolRow(_fixture.Page, updatedName).Locator("button").Nth(1).ClickAsync();
+        await E2ETestHelper.ToolRow(_fixture.Page, updatedName).Locator("button[mat-icon-button]").Nth(1).ClickAsync();
         await _fixture.Page.WaitForSelectorAsync("mat-dialog-container");
         await _fixture.Page.ClickAsync("mat-dialog-actions button:has-text('Delete')");
 
@@ -104,3 +104,4 @@ public class ToolsTests : IClassFixture<PlaywrightFixture>
         await Assertions.Expect(title).ToContainTextAsync("Scan");
     }
 }
+

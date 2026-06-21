@@ -14,7 +14,7 @@
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Barcode / QR Code</mat-label>
     <input matInput formControlName="barcode">
-    <mat-icon matSuffix>qr_code</mat-icon>
+    <mat-icon matSuffix svgIcon="ui-qr" aria-hidden="true"></mat-icon>
   </mat-form-field>
 
   <div class="row">
@@ -62,3 +62,4 @@
     {{ isEdit ? 'Update' : 'Create' }}
   </button>
 </mat-dialog-actions>
+

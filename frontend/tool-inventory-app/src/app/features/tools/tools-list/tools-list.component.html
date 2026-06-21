@@ -1,68 +1,254 @@
-<div class="page-header">
-  <h1>Tools</h1>
-  <div class="header-actions">
-    <button mat-stroked-button (click)="openScanner()">
-      <mat-icon>qr_code_scanner</mat-icon>
-      Scan
-    </button>
-    <mat-divider vertical></mat-divider>
-    <button mat-raised-button color="primary" (click)="openCreate()">
-      <mat-icon>add</mat-icon>
-      Add Tool
-    </button>
-  </div>
+<div class="tools-dashboard">
+  <section class="dashboard-main">
+    <div class="page-header">
+      <div>
+        <h1>Tool operations</h1>
+        <p class="page-subtitle">Search inventory, scan barcodes, and process check-ins or check-outs from one dashboard.</p>
+      </div>
+      <button mat-raised-button color="primary" (click)="openCreate()">
+        <mat-icon>add</mat-icon>
+        Add Tool
+      </button>
+    </div>
+
+    <section class="search-panel mat-elevation-z2">
+      <div class="search-panel__copy">
+        <h2>Search tools, serial number, or scan barcode</h2>
+        <p>Use live search and status filters or jump straight into a barcode scan.</p>
+      </div>
+
+      <div class="search-panel__controls">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Filter</mat-label>
+          <input matInput [value]="searchTerm" (input)="applySearch($event)" placeholder="Search tools...">
+          <mat-icon matSuffix svgIcon="ui-search" aria-hidden="true"></mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="status-field">
+          <mat-label>Status</mat-label>
+          <mat-select [value]="selectedStatus" (valueChange)="changeStatus($event)">
+            @for (option of statusOptions; track option.value) {
+              <mat-option [value]="option.value">{{ option.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <div class="search-panel__actions">
+          <button mat-stroked-button (click)="resetFilters()">
+            <mat-icon>filter_alt_off</mat-icon>
+            Reset
+          </button>
+          <button mat-raised-button color="primary" (click)="openScanner()">
+            <mat-icon>qr_code_scanner</mat-icon>
+            Scan Barcode
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="table-panel mat-elevation-z2">
+      <div class="table-panel__header">
+        <div>
+          <h2>Tool inventory</h2>
+          <p>{{ dataSource.data.length }} tools shown</p>
+        </div>
+      </div>
+
+      <div class="table-container" data-testid="tools-table">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="tool">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tool</th>
+            <td mat-cell *matCellDef="let tool">
+              <div class="tool-cell">
+                <span class="tool-cell__name">{{ tool.name }}</span>
+                <span class="tool-cell__meta">{{ toolMeta(tool) }}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+            <td mat-cell *matCellDef="let tool">{{ tool.categoryName ?? 'Unassigned' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <td mat-cell *matCellDef="let tool">
+              <mat-chip [color]="statusColor(tool.status)" highlighted>{{ statusLabel(tool.status) }}</mat-chip>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="location">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+            <td mat-cell *matCellDef="let tool">
+              <div class="location-cell">
+                <span>{{ tool.location ?? 'No location set' }}</span>
+                <span class="location-cell__meta">{{ locationMeta(tool) }}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let tool">
+              <button
+                mat-raised-button
+                color="primary"
+                class="row-action-btn"
+                [attr.data-testid]="'row-action-' + tool.id"
+                (click)="$event.stopPropagation(); handlePrimaryAction(tool)">
+                {{ primaryActionLabel(tool) }}
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="manage">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let tool" class="manage-cell">
+              <button mat-icon-button matTooltip="Edit tool" (click)="$event.stopPropagation(); openEdit(tool)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" matTooltip="Delete tool" (click)="$event.stopPropagation(); delete(tool)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns;"
+            class="tool-row"
+            [class.tool-row--selected]="selectedTool?.id === row.id"
+            (click)="focusTool(row)"></tr>
+        </table>
+      </div>
+
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+    </section>
+  </section>
+
+  <aside class="dashboard-side">
+    <mat-card class="quick-panel">
+      <div class="panel-header">
+        <h2>Quick checkout/check-in</h2>
+        <p>Move from scan to confirmation without switching screens.</p>
+      </div>
+
+      <ol class="step-list">
+        <li>Scan a barcode</li>
+        <li>Verify employee</li>
+        <li>Confirm checkout or check-in</li>
+      </ol>
+
+      <button mat-stroked-button class="panel-scan-btn" (click)="openScanner()">
+        <mat-icon>qr_code_scanner</mat-icon>
+        Start scanner
+      </button>
+
+      <mat-divider></mat-divider>
+
+      <div class="selection-state">
+        <h3 data-testid="quick-panel-selection">{{ quickActionTitle() }}</h3>
+        <p>{{ quickActionDescription() }}</p>
+      </div>
+
+      @if (selectedTool; as tool) {
+        <div class="selected-tool-card">
+          <div class="selected-tool-card__header">
+            <div>
+              <strong>{{ tool.name }}</strong>
+              <span>{{ tool.categoryName ?? 'Unassigned category' }}</span>
+            </div>
+            <mat-chip [color]="statusColor(tool.status)" highlighted>{{ statusLabel(tool.status) }}</mat-chip>
+          </div>
+
+          <p class="selected-tool-card__meta">{{ locationMeta(tool) }}</p>
+
+          @if (quickActionMode === 'checkout') {
+            <form [formGroup]="quickActionForm" class="quick-form">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Employee user ID</mat-label>
+                <input matInput formControlName="userId">
+                <mat-hint>Use the employee ID stored in the identity system.</mat-hint>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Expected return date</mat-label>
+                <input matInput [matDatepicker]="quickReturnPicker" formControlName="expectedReturnDate">
+                <mat-datepicker-toggle matSuffix [for]="quickReturnPicker"></mat-datepicker-toggle>
+                <mat-datepicker #quickReturnPicker></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Notes</mat-label>
+                <textarea matInput formControlName="notes" rows="2"></textarea>
+              </mat-form-field>
+            </form>
+          } @else if (!quickActionMode) {
+            <p class="selected-tool-card__meta">This tool is not currently available for quick checkout or check-in. Open the tool details to review or edit it.</p>
+          }
+
+          <div class="selected-tool-card__actions">
+            @if (quickActionMode) {
+              <button mat-raised-button color="primary" (click)="submitQuickAction()" [disabled]="submittingQuickAction">
+                {{ quickActionMode === 'checkin' ? 'Confirm Check In' : 'Confirm Check Out' }}
+              </button>
+            } @else {
+              <button mat-stroked-button (click)="openEdit(tool)">Open Tool Details</button>
+            }
+            <button mat-button (click)="clearQuickAction()">Clear Selection</button>
+          </div>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <mat-icon>inventory_2</mat-icon>
+          <p>Select a tool from the table or scan a barcode to populate the quick action panel.</p>
+        </div>
+      }
+    </mat-card>
+
+    <mat-card class="summary-panel">
+      <div class="panel-header">
+        <h2>Active transactions</h2>
+        <p>Live operational snapshot of today�s inventory activity.</p>
+      </div>
+
+      <div class="metrics-grid">
+        @for (metric of dashboardMetrics; track metric.testId) {
+          <div class="metric-card" [attr.data-testid]="metric.testId">
+            <span class="metric-card__value">{{ metric.value }}</span>
+            <span class="metric-card__label">{{ metric.label }}</span>
+          </div>
+        }
+      </div>
+    </mat-card>
+
+    <mat-card class="alerts-panel">
+      <div class="panel-header">
+        <h2>Alerts</h2>
+        <p>Upcoming maintenance and overdue returns are surfaced here.</p>
+      </div>
+
+      @if (alerts.length) {
+        <div class="alerts-list">
+          @for (alert of alerts; track alert.title + alert.detail) {
+            <div class="alert-card">
+              <div>
+                <strong>{{ alert.title }}</strong>
+                <p>{{ alert.detail }}</p>
+              </div>
+              <button mat-stroked-button (click)="navigateTo(alert.route)">{{ alert.actionLabel }}</button>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="empty-state empty-state--compact">
+          <mat-icon>task_alt</mat-icon>
+          <p>No urgent alerts right now.</p>
+        </div>
+      }
+    </mat-card>
+  </aside>
 </div>
 
-<mat-form-field appearance="outline" class="filter-field">
-  <mat-label>Filter</mat-label>
-  <input matInput (input)="applyFilter($event)" placeholder="Search tools...">
-  <mat-icon matSuffix>search</mat-icon>
-</mat-form-field>
-
-<div class="table-container mat-elevation-z2">
-  <table mat-table [dataSource]="dataSource" matSort>
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-      <td mat-cell *matCellDef="let tool">{{ tool.name }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef>Category</th>
-      <td mat-cell *matCellDef="let tool">{{ tool.categoryName ?? '—' }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="location">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
-      <td mat-cell *matCellDef="let tool">{{ tool.location ?? '—' }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="systainer">
-      <th mat-header-cell *matHeaderCellDef>Systainer</th>
-      <td mat-cell *matCellDef="let tool">{{ tool.systainer ?? '—' }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-      <td mat-cell *matCellDef="let tool">
-        <mat-chip [color]="statusColor(tool.status)" highlighted>{{ tool.status }}</mat-chip>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let tool">
-        <button mat-icon-button matTooltip="Edit" (click)="openEdit(tool)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button matTooltip="Delete" color="warn" (click)="delete(tool)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-
-  <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
-</div>
