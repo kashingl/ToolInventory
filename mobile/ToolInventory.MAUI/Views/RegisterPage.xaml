@@ -3,7 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ToolInventory.MAUI.Views.RegisterPage"
              Title="Register">
-    <Label Text="Register page - coming soon"
-           HorizontalOptions="Center"
-           VerticalOptions="Center" />
+    <Grid Padding="24">
+        <Border Style="{StaticResource AppCardBorderStyle}" Margin="0" Padding="18">
+            <VerticalStackLayout Spacing="8" VerticalOptions="Center">
+                <Label Text="Register" Style="{StaticResource PageTitleLabel}" />
+                <Label Text="De registratieflow voor mobiel volgt in de volgende iteratie."
+                       Style="{StaticResource MutedMetaLabel}" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
 </ContentPage>

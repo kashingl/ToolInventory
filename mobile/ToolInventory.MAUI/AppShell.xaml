@@ -6,16 +6,6 @@
        Shell.NavBarIsVisible="True"
        FlyoutBehavior="Disabled">
 
-    <Shell.Resources>
-        <ResourceDictionary>
-            <Style x:Key="BaseStyle" TargetType="Element">
-                <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light=#6200EE, Dark=#1C1C1E}" />
-                <Setter Property="Shell.ForegroundColor" Value="White" />
-                <Setter Property="Shell.TitleColor" Value="White" />
-            </Style>
-        </ResourceDictionary>
-    </Shell.Resources>
-
     <ShellContent Route="login"
                   FlyoutItemIsVisible="False"
                   ContentTemplate="{DataTemplate views:LoginPage}" />

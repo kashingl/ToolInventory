@@ -4,24 +4,24 @@
              xmlns:vm="clr-namespace:ToolInventory.MAUI.ViewModels"
              x:Class="ToolInventory.MAUI.Views.LoginPage"
              x:DataType="vm:LoginViewModel"
-             Title="Sign In"
-             BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#1C1C1E}">
+             Title="Sign In">
 
     <ScrollView>
-        <VerticalStackLayout Padding="32" Spacing="16" VerticalOptions="Center">
+        <VerticalStackLayout Padding="24" Spacing="16" VerticalOptions="Center">
             <Image Source="dotnet_bot.png" HeightRequest="80" />
-            <Label Text="Tool Inventory" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center" />
-            <Label Text="Sign in to continue" FontSize="14" TextColor="Gray" HorizontalOptions="Center" />
+            <Label Text="Tool Inventory" Style="{StaticResource PageTitleLabel}" HorizontalOptions="Center" />
+            <Label Text="Sign in to continue" FontSize="14" TextColor="{StaticResource Gray600}" HorizontalOptions="Center" />
 
             <Label Text="{Binding ErrorMessage}"
-                   TextColor="Red"
+                   TextColor="{StaticResource DangerColor}"
+                   LineBreakMode="WordWrap"
                    IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}" />
 
-            <Border StrokeShape="RoundRectangle 8" Padding="12,0">
+            <Border Style="{StaticResource AppCardBorderStyle}" Margin="0" Padding="12,0">
                 <Entry Placeholder="Email" Text="{Binding Email}" Keyboard="Email" ReturnType="Next" />
             </Border>
 
-            <Border StrokeShape="RoundRectangle 8" Padding="12,0">
+            <Border Style="{StaticResource AppCardBorderStyle}" Margin="0" Padding="12,0">
                 <Entry Placeholder="Password"
                        Text="{Binding Password}"
                        IsPassword="True"
@@ -32,9 +32,6 @@
             <Button Text="Sign In"
                     Command="{Binding LoginCommand}"
                     IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
-                    BackgroundColor="{AppThemeBinding Light=#6200EE, Dark=#BB86FC}"
-                    TextColor="White"
-                    CornerRadius="8"
                     HeightRequest="50" />
 
             <ActivityIndicator IsRunning="{Binding IsLoading}"
@@ -45,7 +42,7 @@
                 <Label.FormattedText>
                     <FormattedString>
                         <Span Text="Don't have an account? " />
-                        <Span Text="Register" TextColor="{AppThemeBinding Light=#6200EE, Dark=#BB86FC}">
+                        <Span Text="Register" TextColor="{StaticResource Primary}">
                             <Span.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding GoToRegisterCommand}" />
                             </Span.GestureRecognizers>
