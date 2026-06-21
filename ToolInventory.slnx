@@ -1,0 +1,12 @@
+<Solution>
+  <Project Path="mobile/ToolInventory.MAUI/ToolInventory.MAUI.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+  <Project Path="src/ToolInventory.API/ToolInventory.API.csproj" />
+  <Project Path="src/ToolInventory.Core/ToolInventory.Core.csproj" />
+  <Project Path="src/ToolInventory.Infrastructure/ToolInventory.Infrastructure.csproj" />
+  <Project Path="src/ToolInventory.Shared/ToolInventory.Shared.csproj" />
+  <Project Path="tests/ToolInventory.API.Tests/ToolInventory.API.Tests.csproj" />
+  <Project Path="tests/ToolInventory.Core.Tests/ToolInventory.Core.Tests.csproj" />
+  <Project Path="tests/ToolInventory.E2E.Tests/ToolInventory.E2E.Tests.csproj" />
+</Solution>

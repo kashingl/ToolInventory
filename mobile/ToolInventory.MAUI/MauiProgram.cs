@@ -30,6 +30,7 @@ public static class MauiProgram
         {
             var apiConfig = sp.GetRequiredService<IApiConfiguration>();
             var handler = sp.GetRequiredService<AuthMessageHandler>();
+            handler.InnerHandler = new HttpClientHandler();
             var client = new HttpClient(handler)
             {
                 BaseAddress = new Uri(apiConfig.BaseUrl)
