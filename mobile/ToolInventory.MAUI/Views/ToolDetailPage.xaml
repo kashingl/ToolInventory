@@ -11,28 +11,29 @@
     </ContentPage.ToolbarItems>
 
     <ScrollView>
-        <VerticalStackLayout Padding="16" Spacing="12" IsVisible="{Binding Tool, Converter={StaticResource NotNullConverter}}">
-            <Border Padding="16" StrokeShape="RoundRectangle 8">
-                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*" RowSpacing="8">
+        <VerticalStackLayout Padding="12" Spacing="12" IsVisible="{Binding Tool, Converter={StaticResource NotNullConverter}}">
+            <Border Style="{StaticResource AppCardBorderStyle}" Margin="0">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*" RowSpacing="10" ColumnSpacing="12">
                     <Label Grid.Row="0" Grid.Column="0" Text="Status" FontAttributes="Bold" />
                     <Label Grid.Row="0" Grid.Column="1"
                            Text="{Binding Tool.Status}"
+                           LineBreakMode="WordWrap"
                            TextColor="{Binding Tool.Status, Converter={StaticResource StatusColorConverter}}" />
 
                     <Label Grid.Row="1" Grid.Column="0" Text="Category" FontAttributes="Bold" />
-                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Tool.CategoryName}" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding Tool.CategoryName}" LineBreakMode="WordWrap" />
 
                     <Label Grid.Row="2" Grid.Column="0" Text="Location" FontAttributes="Bold" />
-                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Tool.Location}" />
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Tool.Location}" LineBreakMode="WordWrap" />
 
                     <Label Grid.Row="3" Grid.Column="0" Text="Systainer" FontAttributes="Bold" />
-                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Tool.Systainer}" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Tool.Systainer}" LineBreakMode="WordWrap" />
 
                     <Label Grid.Row="4" Grid.Column="0" Text="Barcode" FontAttributes="Bold" />
-                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Tool.Barcode}" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Tool.Barcode}" LineBreakMode="WordWrap" />
 
                     <Label Grid.Row="5" Grid.Column="0" Text="Description" FontAttributes="Bold" />
-                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Tool.Description}" />
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Tool.Description}" LineBreakMode="WordWrap" />
                 </Grid>
             </Border>
 

@@ -1,44 +1,65 @@
 .sidenav-container {
   height: 100vh;
+  background: linear-gradient(180deg, #f8faff 0%, #eef3fb 100%);
 }
 
 .sidenav {
-  width: 220px;
+  width: 264px;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #dbe5f5;
+
+  mat-toolbar {
+    min-height: 72px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
 }
 
 .content {
-  padding: 24px;
+  padding: 28px;
+}
+
+.sidenav :is(a[mat-list-item], .mdc-list-item) {
+  margin: 4px 8px;
+  border-radius: 10px;
 }
 
 .active-link {
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(21, 101, 192, 0.12);
+  color: #0d47a1;
   font-weight: 600;
 }
 
 .sidenav-footer {
   margin-top: auto;
-  padding: 12px 8px;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 14px 10px;
+  border-top: 1px solid #dbe5f5;
+  background: #f8fbff;
 }
 
 .user-info {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   padding: 8px;
   font-size: 14px;
-  color: #555;
+  color: #374151;
 
   .user-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.35;
   }
 }
 
 .logout-btn {
   width: 100%;
   justify-content: flex-start;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    padding: 20px;
+  }
 }

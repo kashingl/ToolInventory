@@ -25,4 +25,33 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  color: #111827;
+  background: #eef3fb;
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+}
+
+.mat-mdc-card {
+  border-radius: 14px;
+}
+
+.mat-mdc-table .mat-mdc-cell,
+.mat-mdc-table .mat-mdc-header-cell {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.mat-mdc-table .mat-mdc-header-cell {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mat-mdc-table .mat-mdc-cell {
+  color: #1f2937;
 }

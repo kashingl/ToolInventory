@@ -13,14 +13,26 @@
     </ContentPage.ToolbarItems>
 
     <RefreshView Command="{Binding LoadCommand}" IsRefreshing="{Binding IsLoading}">
-        <CollectionView ItemsSource="{Binding Checkouts}">
+        <CollectionView ItemsSource="{Binding Checkouts}" ItemSizingStrategy="MeasureAllItems">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="dto:CheckoutDto">
-                    <Border Margin="8,4" Padding="12" StrokeShape="RoundRectangle 8">
-                        <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto">
-                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding ToolName}" FontAttributes="Bold" FontSize="16" />
-                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding UserName}" FontSize="13" TextColor="Gray" />
-                            <Label Grid.Row="2" Grid.Column="0" Text="{Binding CheckoutDate, StringFormat='{0:dd/MM/yyyy HH:mm}'}" FontSize="12" TextColor="Gray" />
+                    <Border Style="{StaticResource AppCardBorderStyle}">
+                        <Grid RowDefinitions="Auto,Auto,Auto"
+                              ColumnDefinitions="*,Auto"
+                              ColumnSpacing="10"
+                              RowSpacing="6">
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   Text="{Binding ToolName}"
+                                   Style="{StaticResource CardTitleLabel}" />
+                            <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   Text="{Binding UserName}"
+                                   Style="{StaticResource MutedMetaLabel}" />
+                            <Label Grid.Row="2"
+                                   Grid.Column="0"
+                                   Text="{Binding CheckoutDate, StringFormat='{0:dd/MM/yyyy HH:mm}'}"
+                                   Style="{StaticResource MutedMetaLabel}" />
                             <Button Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"
                                     Text="Check In"
                                     Command="{Binding Source={x:Reference Page}, Path=BindingContext.CheckInCommand}"
