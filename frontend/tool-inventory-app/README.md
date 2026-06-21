@@ -60,6 +60,8 @@ Example:
    - `Add Tool` uses a plus icon.
    - `Scan Barcode` and `Start scanner` use QR/barcode icon.
    - `Reset` uses a reset/undo arrow icon.
+   - row actions use graphical edit/trash icons.
+   - empty quick-action state uses a box/inventory icon.
 
 ## Key folders
 

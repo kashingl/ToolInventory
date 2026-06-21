@@ -106,10 +106,10 @@
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let tool" class="manage-cell">
               <button mat-icon-button matTooltip="Edit tool" (click)="$event.stopPropagation(); openEdit(tool)">
-                <mat-icon>edit</mat-icon>
+                <mat-icon svgIcon="ui-edit" aria-hidden="true"></mat-icon>
               </button>
               <button mat-icon-button color="warn" matTooltip="Delete tool" (click)="$event.stopPropagation(); delete(tool)">
-                <mat-icon>delete</mat-icon>
+                <mat-icon svgIcon="ui-trash" aria-hidden="true"></mat-icon>
               </button>
             </td>
           </ng-container>
@@ -202,7 +202,7 @@
         </div>
       } @else {
         <div class="empty-state">
-          <mat-icon>inventory_2</mat-icon>
+          <mat-icon svgIcon="ui-box" aria-hidden="true"></mat-icon>
           <p>Select a tool from the table or scan a barcode to populate the quick action panel.</p>
         </div>
       }

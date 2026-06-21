@@ -42,6 +42,10 @@ Klik op uw gebruikersnaam of het uitlog-icoon rechtsboven en kies **Uitloggen**.
    - operationele kaarten met aantallen en meldingen.
 3. Gebruik **Reset** om filterinstellingen snel terug te zetten.
 4. Klik op een gereedschap of op de rij-actie om het rechterpaneel met snelle acties te openen.
+5. De rij-acties gebruiken iconen:
+   - **potlood** voor bewerken,
+   - **prullenbak** voor verwijderen.
+6. Wanneer er geen selectie is, ziet u in het rechterpaneel een **box/inventory** icoon als lege status.
 
 ### Gereedschap zoeken via barcode
 

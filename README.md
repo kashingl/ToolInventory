@@ -32,7 +32,7 @@ ToolInventory is a full-stack tool management system with:
 3. Shared status-color mapping and reduced duplicated dialog refresh logic.
 4. Better component lifecycle usage (`ngOnInit` for data-loading side effects).
 5. Tools page redesigned to an operations dashboard with quick checkout/check-in panel, metrics, and alerts.
-6. Input and action icons migrated to custom SVG icons (mail, user, search, QR/barcode, plus, reset, eye, calendar).
+6. Input and action icons migrated to custom SVG icons (mail, user, search, QR/barcode, plus, reset, edit, trash, box, eye, calendar).
 
 ### Mobile
 
