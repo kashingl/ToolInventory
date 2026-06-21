@@ -35,18 +35,22 @@ Klik op uw gebruikersnaam of het uitlog-icoon rechtsboven en kies **Uitloggen**.
 ### Gereedschappen inzien
 
 1. Klik op **Gereedschappen** in het navigatiemenu.
-2. U ziet een overzichtslijst met naam, categorie, locatie en status.
-3. Gebruik het **statusfilter** (bijv. "Beschikbaar") om de lijst te verfijnen.
-4. Klik op een gereedschap om de detailweergave te openen.
+2. U ziet het **Tool operations** dashboard met:
+   - zoekveld (**Filter**),
+   - statusfilter,
+   - snelle acties voor uitgifte/inname,
+   - operationele kaarten met aantallen en meldingen.
+3. Gebruik **Reset** om filterinstellingen snel terug te zetten.
+4. Klik op een gereedschap of op de rij-actie om het rechterpaneel met snelle acties te openen.
 
 ### Gereedschap zoeken via barcode
 
-1. Gebruik de **scannerfunctie** (zie sectie 7) of vul handmatig de barcode in het zoekveldin op de gereedschappenpagina.
+1. Gebruik **Scan Barcode** of **Start scanner** (QR/barcode-icoon), of vul handmatig de barcode in het zoekveld op de gereedschappenpagina.
 2. Het bijbehorende gereedschap wordt direct getoond.
 
 ### Gereedschap aanmaken
 
-1. Klik op **Gereedschappen** → **+ Nieuw gereedschap**.
+1. Klik op **Gereedschappen** → **Add Tool** (met plus-icoon).
 2. Vul de verplichte velden in:
    - **Naam** (verplicht)
 3. Vul optioneel in: beschrijving, barcode, locatie, systainer, afbeelding-URL en categorie.

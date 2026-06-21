@@ -32,7 +32,7 @@
         <mat-label>Password</mat-label>
         <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" autocomplete="new-password">
         <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
-          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          <mat-icon [svgIcon]="hidePassword ? 'ui-eye-off' : 'ui-eye'" aria-hidden="true"></mat-icon>
         </button>
         <mat-hint>Minimum 8 characters</mat-hint>
       </mat-form-field>
@@ -52,4 +52,5 @@
     </mat-card-actions>
   </mat-card>
 </div>
+
 

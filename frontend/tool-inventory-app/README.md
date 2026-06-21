@@ -48,6 +48,19 @@ Example:
 6. **Routing fallback**:
    - wildcard route redirects unknown paths to `tools`.
 
+## Recent UI updates
+
+1. **Tools operations dashboard**:
+   - search + status filtering, quick checkout/check-in panel, operational metrics, and alerts.
+2. **Custom SVG icon system**:
+   - shared icon registration in `src/app/app.ts` via `MatIconRegistry`.
+3. **Input icon migration**:
+   - text-based `mat-icon` usage in inputs replaced by graphical SVG icons (email, user, search, barcode/QR, password visibility, datepicker).
+4. **Action button icon updates (Tools page)**:
+   - `Add Tool` uses a plus icon.
+   - `Scan Barcode` and `Start scanner` use QR/barcode icon.
+   - `Reset` uses a reset/undo arrow icon.
+
 ## Key folders
 
 | Path | Purpose |

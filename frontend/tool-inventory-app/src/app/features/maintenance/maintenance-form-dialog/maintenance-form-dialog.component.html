@@ -13,7 +13,7 @@
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Date *</mat-label>
     <input matInput [matDatepicker]="datePicker" formControlName="date">
-    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+    <mat-datepicker-toggle matSuffix [for]="datePicker"><mat-icon matDatepickerToggleIcon svgIcon="ui-calendar" aria-hidden="true"></mat-icon></mat-datepicker-toggle>
     <mat-datepicker #datePicker></mat-datepicker>
   </mat-form-field>
 
@@ -37,7 +37,7 @@
     <mat-form-field appearance="outline" class="half-width">
       <mat-label>Next Maintenance</mat-label>
       <input matInput [matDatepicker]="nextPicker" formControlName="nextMaintenanceDate">
-      <mat-datepicker-toggle matSuffix [for]="nextPicker"></mat-datepicker-toggle>
+      <mat-datepicker-toggle matSuffix [for]="nextPicker"><mat-icon matDatepickerToggleIcon svgIcon="ui-calendar" aria-hidden="true"></mat-icon></mat-datepicker-toggle>
       <mat-datepicker #nextPicker></mat-datepicker>
     </mat-form-field>
   </div>
@@ -47,3 +47,4 @@
   <button mat-button (click)="cancel()">Cancel</button>
   <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid">Save</button>
 </mat-dialog-actions>
+

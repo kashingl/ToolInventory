@@ -112,7 +112,7 @@ describe('ToolsListComponent', () => {
 
     const registry = TestBed.inject(MatIconRegistry);
     const sanitizer = TestBed.inject(DomSanitizer);
-    for (const name of ['ui-search', 'ui-mail', 'ui-user', 'ui-qr']) {
+    for (const name of ['ui-search', 'ui-mail', 'ui-user', 'ui-qr', 'ui-plus', 'ui-reset', 'ui-eye', 'ui-eye-off', 'ui-calendar']) {
       registry.addSvgIconLiteral(name, sanitizer.bypassSecurityTrustHtml(SVG_ICON));
     }
   });

@@ -18,7 +18,7 @@
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Expected Return Date</mat-label>
     <input matInput [matDatepicker]="picker" formControlName="expectedReturnDate">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker-toggle matSuffix [for]="picker"><mat-icon matDatepickerToggleIcon svgIcon="ui-calendar" aria-hidden="true"></mat-icon></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
@@ -32,3 +32,4 @@
   <button mat-button (click)="cancel()">Cancel</button>
   <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid">Check Out</button>
 </mat-dialog-actions>
+
