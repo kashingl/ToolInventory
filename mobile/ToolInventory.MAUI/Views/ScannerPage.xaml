@@ -31,6 +31,20 @@
                     <Label LineBreakMode="WordWrap">
                         <Label.FormattedText>
                             <FormattedString>
+                                <Span Text="Make/Model: " FontAttributes="Bold" />
+                                <Span Text="{Binding FoundTool.Make}" />
+                                <Span Text=" " />
+                                <Span Text="{Binding FoundTool.Model}" />
+                                <Span Text=" · SN: " FontAttributes="Bold" />
+                                <Span Text="{Binding FoundTool.SerialNumber}" />
+                                <Span Text=" · Owner: " FontAttributes="Bold" />
+                                <Span Text="{Binding FoundTool.Owner}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label LineBreakMode="WordWrap">
+                        <Label.FormattedText>
+                            <FormattedString>
                                 <Span Text="Location: " FontAttributes="Bold" />
                                 <Span Text="{Binding FoundTool.Location}" />
                                 <Span Text=" · Systainer: " FontAttributes="Bold" />

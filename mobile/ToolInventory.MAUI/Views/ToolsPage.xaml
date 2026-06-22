@@ -39,6 +39,14 @@
                                 <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource MutedMetaLabel}">
                                     <Label.FormattedText>
                                         <FormattedString>
+                                            <Span Text="{Binding Make}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding Model}" />
+                                            <Span Text=" · SN: " />
+                                            <Span Text="{Binding SerialNumber}" />
+                                            <Span Text=" · Owner: " />
+                                            <Span Text="{Binding Owner}" />
+                                            <Span Text=" · " />
                                             <Span Text="{Binding Location}" />
                                             <Span Text=" · Systainer: " />
                                             <Span Text="{Binding Systainer}" />

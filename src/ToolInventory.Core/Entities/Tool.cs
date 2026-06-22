@@ -4,6 +4,10 @@ public class Tool
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    public string? Make { get; set; }
+    public string? Model { get; set; }
+    public string? SerialNumber { get; set; }
+    public string? Owner { get; set; }
     public string? Description { get; set; }
     public string? Barcode { get; set; }
     public string? Location { get; set; }

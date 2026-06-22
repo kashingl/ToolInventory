@@ -10,18 +10,25 @@ public class ToolService(IUnitOfWork uow) : IToolService
     public async Task<ServiceResult<Tool>> CreateAsync(CreateToolDto dto, CancellationToken cancellationToken = default)
     {
         var name = InputNormalizer.NormalizeName(dto.Name);
-        var barcode = InputNormalizer.NormalizeBarcode(dto.Barcode);
+        var requestedBarcode = InputNormalizer.NormalizeBarcode(dto.Barcode);
+        var barcode = requestedBarcode ?? GenerateBarcode();
 
-        if (barcode is not null)
+        var existingBarcode = (await uow.Tools.FindAsync(t => t.Barcode == barcode, cancellationToken: cancellationToken)).FirstOrDefault();
+        if (existingBarcode is not null)
         {
-            var existingBarcode = (await uow.Tools.FindAsync(t => t.Barcode == barcode, cancellationToken: cancellationToken)).FirstOrDefault();
-            if (existingBarcode is not null)
+            if (requestedBarcode is not null)
             {
                 return ServiceResult<Tool>.Fail(
                     StatusCodes.Status409Conflict,
                     "Duplicate barcode.",
                     "Another tool already uses this barcode.");
             }
+
+            do
+            {
+                barcode = GenerateBarcode();
+                existingBarcode = (await uow.Tools.FindAsync(t => t.Barcode == barcode, cancellationToken: cancellationToken)).FirstOrDefault();
+            } while (existingBarcode is not null);
         }
 
         if (dto.CategoryId.HasValue)
@@ -39,6 +46,10 @@ public class ToolService(IUnitOfWork uow) : IToolService
         var tool = new Tool
         {
             Name = name,
+            Make = InputNormalizer.NormalizeOptionalText(dto.Make),
+            Model = InputNormalizer.NormalizeOptionalText(dto.Model),
+            SerialNumber = InputNormalizer.NormalizeOptionalText(dto.SerialNumber),
+            Owner = InputNormalizer.NormalizeOptionalText(dto.Owner),
             Description = InputNormalizer.NormalizeOptionalText(dto.Description),
             Barcode = barcode,
             Location = InputNormalizer.NormalizeOptionalText(dto.Location),
@@ -81,22 +92,12 @@ public class ToolService(IUnitOfWork uow) : IToolService
                 $"Cannot transition from '{tool.Status}' to '{parsedStatus}'.");
         }
 
-        var normalizedBarcode = InputNormalizer.NormalizeBarcode(dto.Barcode);
-        if (normalizedBarcode is not null && !string.Equals(normalizedBarcode, tool.Barcode, StringComparison.OrdinalIgnoreCase))
-        {
-            var existingBarcode = (await uow.Tools.FindAsync(t => t.Barcode == normalizedBarcode, cancellationToken: cancellationToken)).FirstOrDefault();
-            if (existingBarcode is not null)
-            {
-                return ServiceResult<Tool>.Fail(
-                    StatusCodes.Status409Conflict,
-                    "Duplicate barcode.",
-                    "Another tool already uses this barcode.");
-            }
-        }
-
         tool.Name = InputNormalizer.NormalizeName(dto.Name);
+        tool.Make = InputNormalizer.NormalizeOptionalText(dto.Make);
+        tool.Model = InputNormalizer.NormalizeOptionalText(dto.Model);
+        tool.SerialNumber = InputNormalizer.NormalizeOptionalText(dto.SerialNumber);
+        tool.Owner = InputNormalizer.NormalizeOptionalText(dto.Owner);
         tool.Description = InputNormalizer.NormalizeOptionalText(dto.Description);
-        tool.Barcode = normalizedBarcode;
         tool.Location = InputNormalizer.NormalizeOptionalText(dto.Location);
         tool.Systainer = InputNormalizer.NormalizeOptionalText(dto.Systainer);
         tool.ImageUrl = InputNormalizer.NormalizeOptionalText(dto.ImageUrl);
@@ -106,6 +107,8 @@ public class ToolService(IUnitOfWork uow) : IToolService
         await uow.SaveChangesAsync(cancellationToken);
         return ServiceResult<Tool>.Success(tool);
     }
+
+    private static string GenerateBarcode() => Guid.NewGuid().ToString().ToUpperInvariant();
 
     private static ToolStatus ParseStatus(ToolStatusValue status)
         => status switch

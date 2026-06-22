@@ -19,6 +19,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
         modelBuilder.Entity<Tool>(e =>
         {
             e.Property(t => t.Name).IsRequired().HasMaxLength(200);
+            e.Property(t => t.Make).HasMaxLength(200);
+            e.Property(t => t.Model).HasMaxLength(200);
+            e.Property(t => t.SerialNumber).HasMaxLength(100);
+            e.Property(t => t.Owner).HasMaxLength(200);
             e.Property(t => t.Barcode).HasMaxLength(100);
             e.Property(t => t.Location).HasMaxLength(200);
             e.Property(t => t.Systainer).HasMaxLength(100);

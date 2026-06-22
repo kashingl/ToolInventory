@@ -56,13 +56,14 @@ export class ScannerDialogComponent implements OnDestroy {
       return;
     }
 
+    const toolId = this.extractToolId(code);
     this.lastScannedCode.set(code);
     this.scanning.set(false);
     this.loading.set(true);
     this.foundTool.set(null);
     this.errorMessage.set(null);
 
-    this.toolService.getByBarcode(code).subscribe({
+    this.toolService.getByBarcode(toolId).subscribe({
       next: tool => {
         this.loading.set(false);
         this.foundTool.set(tool);
@@ -71,7 +72,7 @@ export class ScannerDialogComponent implements OnDestroy {
         this.loading.set(false);
         this.errorMessage.set(
           err.status === 404
-            ? `No tool found for barcode: ${code}`
+            ? `No tool found for barcode: ${toolId}`
             : 'Error looking up barcode. Please try again.'
         );
       }
@@ -117,5 +118,23 @@ export class ScannerDialogComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.scanning.set(false);
+  }
+
+  private extractToolId(code: string): string {
+    const scanned = code.trim();
+    if (!scanned.startsWith('{')) {
+      return scanned;
+    }
+
+    try {
+      const parsed = JSON.parse(scanned) as { id?: unknown };
+      if (typeof parsed.id === 'string' && parsed.id.trim()) {
+        return parsed.id.trim();
+      }
+    } catch {
+      // Keep backwards compatibility with plain barcode values.
+    }
+
+    return scanned;
   }
 }

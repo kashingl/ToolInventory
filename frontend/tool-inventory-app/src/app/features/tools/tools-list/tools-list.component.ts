@@ -372,11 +372,13 @@ export class ToolsListComponent implements OnInit, AfterViewInit {
   }
 
   toolMeta(tool: Tool): string {
-    return [tool.systainer, tool.barcode].filter(Boolean).join(' · ') || 'No barcode or systainer assigned';
+    const modelInfo = [tool.make, tool.model].filter(Boolean).join(' ');
+    return [modelInfo, tool.serialNumber, tool.owner, tool.systainer, tool.barcode].filter(Boolean).join(' | ')
+      || 'No make, model, serial number, owner, barcode, or systainer assigned';
   }
 
   locationMeta(tool: Tool): string {
-    return [tool.location, tool.description].filter(Boolean).join(' · ') || 'No location details';
+    return [tool.location, tool.description].filter(Boolean).join(' ï¿½ ') || 'No location details';
   }
 
   private performCheckIn(tool: Tool): void {
@@ -417,6 +419,10 @@ export class ToolsListComponent implements OnInit, AfterViewInit {
 
       return [
         tool.name,
+        tool.make,
+        tool.model,
+        tool.serialNumber,
+        tool.owner,
         tool.categoryName,
         tool.location,
         tool.systainer,
@@ -515,5 +521,3 @@ export class ToolsListComponent implements OnInit, AfterViewInit {
       && date.getDate() === compareDate.getDate();
   }
 }
-
-

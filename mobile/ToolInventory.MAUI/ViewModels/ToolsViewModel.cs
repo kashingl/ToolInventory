@@ -52,6 +52,10 @@ public partial class ToolsViewModel(IToolApiService apiService, IUserDialogServi
             ? _allTools
             : _allTools.Where(t =>
                 t.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase)
+                || (t.Make?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ?? false)
+                || (t.Model?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ?? false)
+                || (t.SerialNumber?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ?? false)
+                || (t.Owner?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ?? false)
                 || (t.Location?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ?? false)
                 || (t.Systainer?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ?? false)
                 || (t.Barcode?.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ?? false))

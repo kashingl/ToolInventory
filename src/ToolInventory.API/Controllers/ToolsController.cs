@@ -90,6 +90,10 @@ public class ToolsController(IUnitOfWork uow, IToolService toolService) : Contro
     {
         Id = t.Id,
         Name = t.Name,
+        Make = t.Make,
+        Model = t.Model,
+        SerialNumber = t.SerialNumber,
+        Owner = t.Owner,
         Description = t.Description,
         Barcode = t.Barcode,
         Location = t.Location,

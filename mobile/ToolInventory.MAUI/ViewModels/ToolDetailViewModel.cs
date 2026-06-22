@@ -1,5 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using QRCoder;
+using System.Text.Json;
 using ToolInventory.MAUI.Navigation;
 using ToolInventory.MAUI.Services;
 using ToolInventory.Shared.DTOs;
@@ -9,6 +11,7 @@ namespace ToolInventory.MAUI.ViewModels;
 public partial class ToolDetailViewModel(IToolApiService apiService, IUserDialogService dialogService) : ObservableObject, IQueryAttributable
 {
     [ObservableProperty] public partial ToolDto? Tool { get; set; }
+    [ObservableProperty] public partial ImageSource? QrCodeImage { get; set; }
     [ObservableProperty] public partial bool IsLoading { get; set; }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -16,6 +19,7 @@ public partial class ToolDetailViewModel(IToolApiService apiService, IUserDialog
         if (query.TryGetValue("Tool", out var toolValue) && toolValue is ToolDto toolDto)
         {
             Tool = toolDto;
+            QrCodeImage = GenerateQrCode(toolDto);
         }
     }
 
@@ -54,4 +58,26 @@ public partial class ToolDetailViewModel(IToolApiService apiService, IUserDialog
 
     [RelayCommand]
     private Task GoBackAsync() => dialogService.NavigateAsync(AppRoutes.Back);
+
+    private static ImageSource? GenerateQrCode(ToolDto tool)
+    {
+        if (string.IsNullOrWhiteSpace(tool.Barcode))
+        {
+            return null;
+        }
+
+        var payload = JsonSerializer.Serialize(new
+        {
+            id = tool.Barcode,
+            make = tool.Make ?? string.Empty,
+            model = tool.Model ?? string.Empty,
+            owner = tool.Owner ?? string.Empty
+        });
+
+        using var generator = new QRCodeGenerator();
+        using var data = generator.CreateQrCode(payload, QRCodeGenerator.ECCLevel.M);
+        var png = new PngByteQRCode(data);
+        var bytes = png.GetGraphic(20);
+        return ImageSource.FromStream(() => new MemoryStream(bytes));
+    }
 }
