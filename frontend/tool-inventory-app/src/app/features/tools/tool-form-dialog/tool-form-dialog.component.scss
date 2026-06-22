@@ -16,3 +16,24 @@
 .half-width {
   flex: 1;
 }
+
+.qr-preview {
+  margin-bottom: 16px;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  text-align: center;
+  background-color: #fafafa;
+}
+
+.qr-preview h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.qr-preview img {
+  width: 220px;
+  height: 220px;
+  max-width: 100%;
+}

@@ -11,11 +11,40 @@
     <textarea matInput formControlName="description" rows="2"></textarea>
   </mat-form-field>
 
+  <div class="row">
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Make (Manufacturer)</mat-label>
+      <input matInput formControlName="make">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="half-width">
+      <mat-label>Model</mat-label>
+      <input matInput formControlName="model">
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Serial number</mat-label>
+    <input matInput formControlName="serialNumber">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Owner</mat-label>
+    <input matInput formControlName="owner">
+  </mat-form-field>
+
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Barcode / QR Code</mat-label>
-    <input matInput formControlName="barcode">
+    <input matInput formControlName="barcode" readonly>
     <mat-icon matSuffix svgIcon="ui-qr" aria-hidden="true"></mat-icon>
   </mat-form-field>
+
+  @if (qrCodeDataUrl) {
+    <div class="qr-preview">
+      <h3>QR payload preview</h3>
+      <img [src]="qrCodeDataUrl" alt="Tool QR code preview">
+    </div>
+  }
 
   <div class="row">
     <mat-form-field appearance="outline" class="half-width">
@@ -62,4 +91,3 @@
     {{ isEdit ? 'Update' : 'Create' }}
   </button>
 </mat-dialog-actions>
-

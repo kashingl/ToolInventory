@@ -13,7 +13,7 @@
     <ScrollView>
         <VerticalStackLayout Padding="12" Spacing="12" IsVisible="{Binding Tool, Converter={StaticResource NotNullConverter}}">
             <Border Style="{StaticResource AppCardBorderStyle}" Margin="0">
-                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*" RowSpacing="10" ColumnSpacing="12">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*" RowSpacing="10" ColumnSpacing="12">
                     <Label Grid.Row="0" Grid.Column="0" Text="Status" FontAttributes="Bold" />
                     <Label Grid.Row="0" Grid.Column="1"
                            Text="{Binding Tool.Status}"
@@ -26,15 +26,34 @@
                     <Label Grid.Row="2" Grid.Column="0" Text="Location" FontAttributes="Bold" />
                     <Label Grid.Row="2" Grid.Column="1" Text="{Binding Tool.Location}" LineBreakMode="WordWrap" />
 
-                    <Label Grid.Row="3" Grid.Column="0" Text="Systainer" FontAttributes="Bold" />
-                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Tool.Systainer}" LineBreakMode="WordWrap" />
+                    <Label Grid.Row="3" Grid.Column="0" Text="Make" FontAttributes="Bold" />
+                    <Label Grid.Row="3" Grid.Column="1" Text="{Binding Tool.Make}" LineBreakMode="WordWrap" />
 
-                    <Label Grid.Row="4" Grid.Column="0" Text="Barcode" FontAttributes="Bold" />
-                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Tool.Barcode}" LineBreakMode="WordWrap" />
+                    <Label Grid.Row="4" Grid.Column="0" Text="Model" FontAttributes="Bold" />
+                    <Label Grid.Row="4" Grid.Column="1" Text="{Binding Tool.Model}" LineBreakMode="WordWrap" />
 
-                    <Label Grid.Row="5" Grid.Column="0" Text="Description" FontAttributes="Bold" />
-                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Tool.Description}" LineBreakMode="WordWrap" />
+                    <Label Grid.Row="5" Grid.Column="0" Text="Serial number" FontAttributes="Bold" />
+                    <Label Grid.Row="5" Grid.Column="1" Text="{Binding Tool.SerialNumber}" LineBreakMode="WordWrap" />
+
+                    <Label Grid.Row="6" Grid.Column="0" Text="Owner" FontAttributes="Bold" />
+                    <Label Grid.Row="6" Grid.Column="1" Text="{Binding Tool.Owner}" LineBreakMode="WordWrap" />
+
+                    <Label Grid.Row="7" Grid.Column="0" Text="Systainer" FontAttributes="Bold" />
+                    <Label Grid.Row="7" Grid.Column="1" Text="{Binding Tool.Systainer}" LineBreakMode="WordWrap" />
+
+                    <Label Grid.Row="8" Grid.Column="0" Text="Barcode" FontAttributes="Bold" />
+                    <Label Grid.Row="8" Grid.Column="1" Text="{Binding Tool.Barcode}" LineBreakMode="WordWrap" />
+
+                    <Label Grid.Row="9" Grid.Column="0" Text="Description" FontAttributes="Bold" />
+                    <Label Grid.Row="9" Grid.Column="1" Text="{Binding Tool.Description}" LineBreakMode="WordWrap" />
                 </Grid>
+            </Border>
+
+            <Border Style="{StaticResource AppCardBorderStyle}" Margin="0" IsVisible="{Binding QrCodeImage, Converter={StaticResource NotNullConverter}}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Tool QR-code" Style="{StaticResource CardTitleLabel}" HorizontalOptions="Center" />
+                    <Image Source="{Binding QrCodeImage}" WidthRequest="220" HeightRequest="220" HorizontalOptions="Center" />
+                </VerticalStackLayout>
             </Border>
 
             <ActivityIndicator IsRunning="{Binding IsLoading}"

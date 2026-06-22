@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Text.Json;
 using ToolInventory.MAUI.Navigation;
 using ToolInventory.MAUI.Services;
 using ToolInventory.Shared.DTOs;
@@ -18,17 +19,18 @@ public partial class ScannerViewModel(IToolApiService apiService, IUserDialogSer
 
     public async Task OnBarcodeDetectedAsync(string code)
     {
-        if (!IsScanning || code == _lastCode)
+        var toolId = ExtractToolId(code);
+        if (!IsScanning || toolId == _lastCode)
         {
             return;
         }
 
         var currentScanVersion = Interlocked.Increment(ref _scanVersion);
-        _lastCode = code;
+        _lastCode = toolId;
         IsScanning = false;
-        StatusMessage = $"Looking up: {code}";
+        StatusMessage = $"Looking up: {toolId}";
 
-        var result = await apiService.GetToolByBarcodeAsync(code);
+        var result = await apiService.GetToolByBarcodeAsync(toolId);
         if (currentScanVersion != _scanVersion)
         {
             return;
@@ -42,7 +44,7 @@ public partial class ScannerViewModel(IToolApiService apiService, IUserDialogSer
         else
         {
             StatusMessage = result.StatusCode == 404
-                ? $"No tool found for: {code}"
+                ? $"No tool found for: {toolId}"
                 : result.ErrorMessage ?? "Failed to look up barcode.";
         }
     }
@@ -123,5 +125,35 @@ public partial class ScannerViewModel(IToolApiService apiService, IUserDialogSer
         {
             await dialogService.ShowAlertAsync("Info", result.ErrorMessage ?? "No active checkout found.");
         }
+    }
+
+    private static string ExtractToolId(string code)
+    {
+        var scanned = code.Trim();
+        if (!scanned.StartsWith('{'))
+        {
+            return scanned;
+        }
+
+        try
+        {
+            using var document = JsonDocument.Parse(scanned);
+            if (document.RootElement.ValueKind == JsonValueKind.Object
+                && document.RootElement.TryGetProperty("id", out var idProperty)
+                && idProperty.ValueKind == JsonValueKind.String)
+            {
+                var id = idProperty.GetString()?.Trim();
+                if (!string.IsNullOrWhiteSpace(id))
+                {
+                    return id;
+                }
+            }
+        }
+        catch
+        {
+            // Keep backwards compatibility with plain barcode values.
+        }
+
+        return scanned;
     }
 }

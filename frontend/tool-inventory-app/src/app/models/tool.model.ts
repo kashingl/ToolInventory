@@ -3,6 +3,10 @@ export type ToolStatus = 'Available' | 'CheckedOut' | 'UnderMaintenance' | 'Reti
 export interface Tool {
   id: number;
   name: string;
+  make?: string;
+  model?: string;
+  serialNumber?: string;
+  owner?: string;
   description?: string;
   barcode?: string;
   location?: string;
@@ -15,6 +19,10 @@ export interface Tool {
 
 export interface CreateTool {
   name: string;
+  make?: string;
+  model?: string;
+  serialNumber?: string;
+  owner?: string;
   description?: string;
   barcode?: string;
   location?: string;

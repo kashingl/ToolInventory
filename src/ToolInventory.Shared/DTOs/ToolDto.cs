@@ -7,6 +7,10 @@ public class ToolDto
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    public string? Make { get; set; }
+    public string? Model { get; set; }
+    public string? SerialNumber { get; set; }
+    public string? Owner { get; set; }
     public string? Description { get; set; }
     public string? Barcode { get; set; }
     public string? Location { get; set; }
@@ -25,6 +29,18 @@ public class CreateToolDto
 
     [StringLength(2000)]
     public string? Description { get; set; }
+
+    [StringLength(200)]
+    public string? Make { get; set; }
+
+    [StringLength(200)]
+    public string? Model { get; set; }
+
+    [StringLength(100)]
+    public string? SerialNumber { get; set; }
+
+    [StringLength(200)]
+    public string? Owner { get; set; }
 
     [StringLength(100)]
     public string? Barcode { get; set; }
