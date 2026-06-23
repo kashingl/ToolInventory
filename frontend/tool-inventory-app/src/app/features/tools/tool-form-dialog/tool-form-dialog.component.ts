@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import * as QRCode from 'qrcode';
+import qrcode from 'qrcode-generator';
 import { Category } from '../../../models/category.model';
 import { Tool, ToolStatus } from '../../../models/tool.model';
 import { CategoryService } from '../../../services/category.service';
@@ -163,7 +163,11 @@ export class ToolFormDialogComponent implements OnInit {
       model: (value.model ?? '').trim(),
       owner: (value.owner ?? '').trim()
     });
-    this.qrCodeDataUrl = await QRCode.toDataURL(payload, { width: 220, margin: 1 });
+    const qr = qrcode(0, 'M');
+    qr.addData(payload);
+    qr.make();
+    const svg = qr.createSvgTag({ scalable: true, margin: 1 });
+    this.qrCodeDataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
   }
 
   private generateBarcode(): string {
